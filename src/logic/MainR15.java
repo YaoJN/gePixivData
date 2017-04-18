@@ -5,7 +5,7 @@ import java.util.List;
 import constant.Constant;
 import utils.Util;
 
-public class DoMainR15 {
+public class MainR15 {
 	// 下载路径
 	private String savePath = Constant.SAVE_PATH_R15;
 

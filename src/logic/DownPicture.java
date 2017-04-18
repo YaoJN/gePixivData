@@ -22,7 +22,7 @@ public class DownPicture implements Runnable {
 	// 链接数据
 	private String pictureLink = "";
 
-	DownPicture(String savePath, String pictureName, String pictureLink) {
+	public DownPicture(String savePath, String pictureName, String pictureLink) {
 		this.savePath = savePath;
 		this.pictureName = pictureName;
 		this.pictureLink = pictureLink;

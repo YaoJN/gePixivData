@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,10 +25,29 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import constant.Constant;
+import logic.DownPicture;
 import logic.GetCompanyData;
 import logic.GetPictureDate;
 
 public class Util {
+
+	public static Map<Integer, String> userNameMap = new HashMap<Integer, String>();
+
+	static {
+		userNameMap.put(4872213, "N.G");
+		userNameMap.put(297791, "Ϙ");
+		userNameMap.put(2067821, "新屋敷");
+		userNameMap.put(2774175, "しりー");
+		userNameMap.put(1226647, "As109");
+		userNameMap.put(660275, "ONC91");
+		userNameMap.put(1854020, "ち");
+		userNameMap.put(5201223, "LOLICEPT");
+		userNameMap.put(13244881, "Hplay");
+		userNameMap.put(2650491, "janong");
+		userNameMap.put(617959, "くれりて");
+		userNameMap.put(643512, "Redcomet");
+		userNameMap.put(3618744, "ゆきうさぎ");
+	}
 
 	// 计数器
 	private static Integer count_ = 1;
@@ -144,6 +165,7 @@ public class Util {
 			fops.flush();
 			fops.close();
 			System.out.println("第" + count_ + "个图片已写入");
+			System.out.println("下载路径:" + file.getAbsolutePath());
 			count_++;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -262,5 +284,51 @@ public class Util {
 			thread = new Thread(getPictureDate);
 			thread.start();
 		}
+	}
+
+	public static void getPictureListLink(String result, String savePath) {
+		// 图片集地址内容取得
+		Matcher matcher = Util.RegexString(result, "(?<=<div class=\"works_display\"><a href=\").*?(?=\")");
+		String pictureLink = Util.getString(matcher);
+		// 图片详细地址页面取得
+		String pictureLinkView = Util.SendGet(Constant.HTTP + Constant.PIXIV + pictureLink);
+		// 图片集地址集取得
+		matcher = Util.RegexString(pictureLinkView, "(?<=</script><a href=\").*?(?=\" target=\")");
+		List<String> pictureLinkViewList = Util.getListString(matcher);
+		for (String pictureViewLink : pictureLinkViewList) {
+			pictureLinkView = Util.SendGet(Constant.HTTP + Constant.PIXIV + pictureViewLink);
+			matcher = Util.RegexString(pictureLinkView, "(?<=<img src=\").*?(?=\")");
+			pictureLink = Util.getString(matcher);
+			String pictureName = getPictureName(pictureLink);
+//			System.out.println("图片路径:" + pictureLink);
+			try {
+				Thread.sleep(100);
+				new Thread(new DownPicture(savePath, pictureName, pictureLink)).start();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// 取得单张图片的地址,并下载
+	public static void getPictureLink(String result, String savePath) {
+		// 单张图片地址取得
+		Matcher matcher = Util.RegexString(result, "(?<=<div class=\"wrapper\">).*?(?=</div>)");
+		String pictureLink = Util.getString(matcher);
+		matcher = Util.RegexString(pictureLink, "(?<=data-src=\").*?(?=\")");
+		pictureLink = Util.getString(matcher);
+		String pictureName = getPictureName(pictureLink);
+//		System.out.println("图片路径:" + pictureLink);
+		new Thread(new DownPicture(savePath, pictureName, pictureLink)).start();
+	}
+
+	// 获得图片名
+	private static String getPictureName(String pictureLink) {
+		String pictureList[] = pictureLink.split("/");
+		return pictureList[pictureList.length - 1];
+	}
+
+	public static String getUserName(String user) {
+		return userNameMap.get(Integer.parseInt(user));
 	}
 }

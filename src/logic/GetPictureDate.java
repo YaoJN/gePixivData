@@ -70,56 +70,16 @@ public class GetPictureDate implements Runnable {
 					String pictureArea = Util.getString(matcher);
 					if (pictureArea != null) {
 						// 获得单张图片
-						getPictureLink(result, pictureDate);
+//						getPictureLink(result, pictureDate);
+						Util.getPictureLink(result,savePath);
 					} else {
 						// 获得图片集
-						getPictureListLink(result, pictureDate);
+//						getPictureListLink(result, pictureDate);
+						Util.getPictureListLink(result,savePath);
 					}
 				}
 			}
 		}
-	}
-
-	private void getPictureListLink(String result, List<String> pictureDate) {
-		// 图片集地址内容取得
-		Matcher matcher = Util.RegexString(result, "(?<=<div class=\"works_display\"><a href=\").*?(?=\")");
-		String pictureLink = Util.getString(matcher);
-		// 图片详细地址页面取得
-		String pictureLinkView = Util.SendGet(Constant.HTTP + Constant.PIXIV + pictureLink);
-		// 图片集地址集取得
-		matcher = Util.RegexString(pictureLinkView, "(?<=</script><a href=\").*?(?=\" target=\")");
-		List<String> pictureLinkViewList = Util.getListString(matcher);
-		for (String pictureViewLink : pictureLinkViewList) {
-			pictureLinkView = Util.SendGet(Constant.HTTP + Constant.PIXIV + pictureViewLink);
-			matcher = Util.RegexString(pictureLinkView, "(?<=<img src=\").*?(?=\")");
-			pictureLink = Util.getString(matcher);
-			String pictureName = getPictureName(pictureLink);
-			System.out.println("图片路径:" + pictureLink);
-			try {
-				Thread.sleep(100);
-				new Thread(new DownPicture(savePath, pictureName, pictureLink)).start();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	// 取得单张图片的地址,并下载
-	private void getPictureLink(String result, List<String> pictureDate) {
-		// 单张图片地址取得
-		Matcher matcher = Util.RegexString(result, "(?<=<div class=\"wrapper\">).*?(?=</div>)");
-		String pictureLink = Util.getString(matcher);
-		matcher = Util.RegexString(pictureLink, "(?<=data-src=\").*?(?=\")");
-		pictureLink = Util.getString(matcher);
-		String pictureName = getPictureName(pictureLink);
-		System.out.println("图片路径:" + pictureLink);
-		new Thread(new DownPicture(savePath, pictureName, pictureLink)).start();
-	}
-
-	// 获得图片名
-	private String getPictureName(String pictureLink) {
-		String pictureList[] = pictureLink.split("/");
-		return pictureList[pictureList.length - 1];
 	}
 
 	// 不下载BL和兽类的内容
