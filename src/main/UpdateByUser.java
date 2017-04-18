@@ -16,6 +16,7 @@ public class UpdateByUser {
 		String savePath = Constant.SAVE_PATH_USER;
 		// 根据公司下载内容
 		for (Entry<Integer, String> useEntry : map.entrySet()) {
+			Thread.sleep(500);
 			new Thread(new DownPictureByUser(useEntry.getKey().toString(), savePath)).start();
 		}
 	}

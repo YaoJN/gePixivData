@@ -47,6 +47,16 @@ public class Util {
 		userNameMap.put(617959, "くれりて");
 		userNameMap.put(643512, "Redcomet");
 		userNameMap.put(3618744, "ゆきうさぎ");
+		userNameMap.put(652249, "Loading");
+		userNameMap.put(17029152, "ATEOYH");
+		userNameMap.put(15543259, "白井桃太");
+		userNameMap.put(711526, "ダイアル");
+		userNameMap.put(7309260, "山吉田之助");
+		userNameMap.put(4338012, "hews");
+		userNameMap.put(18934609, "はあど");
+		userNameMap.put(2502532, "ふちとろ");
+		userNameMap.put(2001822, "LL");
+		userNameMap.put(3532395, "むおと");
 	}
 
 	// 计数器

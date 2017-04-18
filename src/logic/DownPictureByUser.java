@@ -192,7 +192,7 @@ public class DownPictureByUser implements Runnable {
 			fops.flush();
 			fops.close();
 			System.out.println("第" + count_ + "个图片已写入");
-			System.out.println("图片路径:" + savePath);
+			System.out.println("图片路径:" + file.getAbsolutePath());
 			count_++;
 		} catch (Exception e) {
 			e.printStackTrace();
