@@ -33,6 +33,8 @@ public class Util {
 
 	public static Map<Integer, String> userNameMap = new HashMap<Integer, String>();
 
+	public static Integer userID = 0;
+	
 	static {
 		userNameMap.put(4872213, "N.G");
 		userNameMap.put(297791, "Ϙ");
@@ -57,6 +59,12 @@ public class Util {
 		userNameMap.put(2502532, "ふちとろ");
 		userNameMap.put(2001822, "LL");
 		userNameMap.put(3532395, "むおと");
+		userNameMap.put(17346530, "IronMask");
+		userNameMap.put(135770, "コンノトヒロ");
+		userNameMap.put(1334928, "FUYA");
+		userNameMap.put(949430, "アキラ");
+		userNameMap.put(110212, "彩社長");
+		userID = 110212;
 	}
 
 	// 计数器
@@ -170,6 +178,9 @@ public class Util {
 				new File(savePath).mkdirs();
 			}
 			File file = new File(savePath + File.separator + fileName);
+			if (file.exists()) {
+				return;
+			}
 			FileOutputStream fops = new FileOutputStream(file, true);
 			fops.write(img);
 			fops.flush();

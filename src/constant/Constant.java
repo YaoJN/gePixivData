@@ -21,10 +21,10 @@ public class Constant {
 	public final static String DOWN_MONTH = "04";
 
 	// 下载开始日期(日)
-	public final static String DOWN_START_DAY = "17";
+	public final static String DOWN_START_DAY = "18";
 
 	// 下载终了日期(日)
-	public final static String DOWN_END_DAY = "17";
+	public final static String DOWN_END_DAY = "19";
 
 	// HTTP
 	public final static String HTTP = "http://";

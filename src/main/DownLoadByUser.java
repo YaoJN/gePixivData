@@ -14,7 +14,7 @@ public class DownLoadByUser {
 		// 下载路径
 		String savePath = Constant.SAVE_PATH_USER;
 
-		String user = "3532395";
+		String user = Util.userID.toString();
 		// 获得当前地址
 		String url = Constant.USER_URL_LEFT + user + Constant.USER_URL_RIGHT;
 		String fullSavePath = savePath + Util.getUserName(user);
